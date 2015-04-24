@@ -1,4 +1,4 @@
-package ru.fias.xml.reader;
+package ru.fias.xml;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

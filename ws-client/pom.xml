@@ -9,15 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fias-xml</artifactId>
+    <artifactId>fias-ws-client</artifactId>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
+                <artifactId>jaxws-maven-plugin</artifactId>
                 <configuration>
-                    <packageName>ru.fias.xml</packageName>
+                    <packageName>ru.fias.ws</packageName>
+                    <wsdlLocation>../../../DownloadService.wsdl</wsdlLocation>
+                    <extension>true</extension>
                 </configuration>
             </plugin>
         </plugins>

@@ -1,8 +1,8 @@
-package ru.fias.xml.reader
+package ru.fias.xml
 
 import groovy.util.logging.Log
 import org.apache.commons.lang3.builder.ToStringBuilder
-import ru.fias.xml.model.AddressObjects
+import org.apache.commons.lang3.builder.ToStringStyle
 import spock.lang.Specification
 
 import javax.xml.namespace.QName
@@ -26,7 +26,7 @@ class XmlReaderTest extends Specification {
 
         then:
         log.info("has next: " + reader.hasNext())
-        log.info("item: " + ToStringBuilder.reflectionToString(reader.next()))
+        log.info("item: " + ToStringBuilder.reflectionToString(reader.next(), ToStringStyle.MULTI_LINE_STYLE))
     }
 
     def "address object count"() {
