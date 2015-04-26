@@ -9,6 +9,8 @@ import javax.xml.namespace.QName
 import javax.xml.ws.BindingProvider
 
 /**
+ * Sample of WS client usage.
+ *
  * Created by Dmitry Teslya on 24.04.2015.
  */
 @Log
@@ -20,6 +22,7 @@ class DownloadServiceTest extends Specification {
         given:
         URL url = new URL(this.getClass().getResource("."), "../../../../../src/main/resources/DownloadService.wsdl")
         QName qName = new QName("http://fias.nalog.ru/WebServices/Public/DownloadService.asmx", "DownloadService")
+        // override wsdl url
         DownloadService service = new DownloadService(url, qName)
         DownloadServiceSoap port = service.getDownloadServiceSoap()
         // override endpoint address

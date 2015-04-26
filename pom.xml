@@ -12,6 +12,7 @@
     <modules>
         <module>xml</module>
         <module>ws-client</module>
+        <module>updates</module>
     </modules>
 
     <properties>
