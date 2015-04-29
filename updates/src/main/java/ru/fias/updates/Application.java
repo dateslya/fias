@@ -4,10 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.fias.updates.scheduler.FixedRate;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +16,7 @@ public class Application {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     private static final String INITIAL_DELAY = "02:00:00";
-    private static final String PERIOD = "24:00:00";
+    private static final String PERIOD = "1";
 
     public static void main(String... args) {
         log.info("Run");
@@ -34,7 +30,7 @@ public class Application {
             }
         };
 
-        FixedRate fixedRate = FixedRate.builder().parseInitialDelay(INITIAL_DELAY).parsePeriod(PERIOD).build();
+        FixedRate fixedRate = FixedRate.builder().withInitialDelay(INITIAL_DELAY).withPeriod(PERIOD).build();
         log.info("initialDelay={}", fixedRate.getInitialDelay());
         log.info("h={}, m={}, s={}",
                 fixedRate.getInitialDelay() / (60 * 60),

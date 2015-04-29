@@ -1,8 +1,8 @@
 package ru.fias.updates.scheduler;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -32,24 +32,34 @@ public class FixedRate {
 
     public static class FixedRateBuilder {
 
-        private long initialDelay;
-        private long period;
+        private String initialDelay;
+        private String period;
 
         private FixedRateBuilder() { }
 
-        public FixedRateBuilder parseInitialDelay(String initialDelay) {
-            long offset = ChronoUnit.SECONDS.between(LocalTime.now(), LocalTime.parse(initialDelay));
-            this.initialDelay = offset < 0 ? 24 * 60 * 60 + offset : offset;
+        public FixedRateBuilder withInitialDelay(String initialDelay) {
+            this.initialDelay = initialDelay;
             return this;
         }
 
-        public FixedRateBuilder parsePeriod(String period) {
-            this.period = LocalDateTime.parse(period).getLong(ChronoField.INSTANT_SECONDS);
+        public FixedRateBuilder withPeriod(String period) {
+            this.period = period;
             return this;
         }
 
         public FixedRate build() {
-            return new FixedRate(initialDelay, period);
+            return new FixedRate(parseInitialDelay(initialDelay), parsePeriod(period));
+        }
+
+        public long parseInitialDelay(String initialDelay) {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime initial = LocalDateTime.now().with(LocalTime.parse(initialDelay));
+            initial = now.isAfter(initial) ? initial.plusDays(1) : initial;
+            return ChronoUnit.SECONDS.between(now, initial);
+        }
+
+        public long parsePeriod(String period) {
+            return Duration.ofDays(Long.valueOf(period)).getSeconds();
         }
     }
 }
