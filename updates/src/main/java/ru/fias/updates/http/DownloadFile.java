@@ -3,7 +3,6 @@ package ru.fias.updates.http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -43,30 +42,18 @@ public class DownloadFile {
             log.info("Content-Length: {}", connection.getContentLength());
             log.info("Range: bytes={}-", downloaded);
         }
-        InputStream input = null;
-        OutputStream output = null;
-        try {
-            input = connection.getInputStream();
-            output = new FileOutputStream(target, downloaded != 0);
+
+        try (
+                InputStream input = connection.getInputStream();
+                OutputStream output = new FileOutputStream(target, downloaded != 0);
+        ) {
             int length = 0;
             byte[] buffer = new byte[BUFFER_SIZE];
             while ((length = input.read(buffer)) != END_OF_STREAM) {
                 output.write(buffer, 0, length);
             }
         } finally {
-            closeStream(input);
-            closeStream(output);
             connection.disconnect();
-        }
-    }
-
-    private void closeStream(Closeable closeable) {
-        if (closeable != null) {
-            try {
-                closeable.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 }
